@@ -4,6 +4,8 @@ package example.codeclan.com.employee_starter;
  * Created by user on 30/08/2017.
  */
 
+import java.sql.ResultSet;
+
 import db.SqlRunner;
 
 public class Employee {
@@ -45,6 +47,49 @@ public class Employee {
     public void update() {
         String sql = String.format("UPDATE employees SET (name, salary, department_id)" +
                 "= ('%s', %7.2f, %d) WHERE id = %d;",
-                this.name, this.getSalary(), this.getDepartment().getId())
+                this.name, this.getSalary(), this.getDepartment().getId(), this.getId());
+        SqlRunner.executeUpdate(sql);
+        SqlRunner.closeConnection();
     }
+
+    public static void all(){
+        String sql = "SELECT * FROM employees;";
+        ResultSet rs = SqlRunner.executeQuery(sql);
+        try{
+            while(rs.next()){
+                String name = rs.getString("name");
+                double salary = rs.getDouble("salary");
+                int departmentId = rs.getInt("department_id");
+                System.out.println("Employee: " + name + ", works in department " + departmentId +
+                " for a salary of " + salary + " / year.");
+            }
+        }catch (Exception e){
+            System.err.println(e.getClass().getName() + " : " + e.getMessage());
+            System.exit(0);
+        }finally{
+            SqlRunner.closeConnection();
+        }
+    }
+
+    public static void deleteAll(){
+        String sql = "DELETE FROM employees;";
+        SqlRunner.executeUpdate(sql);
+        SqlRunner.closeConnection();
+    }
+
+    public void delete(){
+        
+    }
+
+// something to work on.
+//    public static Department find_by_id(int deptId) {
+//        String sql = String.format("SELECT * FROM departments WHERE id = %d;", deptId);
+//        ResultSet rs = SqlRunner.executeQuery(sql);
+//        String title = rs.getString("title");
+//        int departmentId = rs.getInt("id");
+//        Department departmentFound = new Department(title);
+//        departmentFound.applyId(departmentId);
+//        SqlRunner.closeConnection();
+//        return departmentFound;
+//    }
 }

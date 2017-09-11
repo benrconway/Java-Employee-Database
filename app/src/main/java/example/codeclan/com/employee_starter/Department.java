@@ -24,6 +24,10 @@ public class Department {
         return title;
     }
 
+    private void applyId(int newId){
+        this.id = newId;
+    }
+
     public void save() {
         String sql = String.format("INSERT INTO departments (title) VALUES ('%s');" , this.getTitle());
         this.id = SqlRunner.executeUpdate(sql);
@@ -65,5 +69,4 @@ public class Department {
             SqlRunner.closeConnection();
         }
     }
-
 }

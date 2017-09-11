@@ -6,6 +6,8 @@ package example.codeclan.com.employee_starter;
 
 public class Runner {
     public static void main(String[] args){
+        Department.deleteAll();
+        Employee.deleteAll();
         Department department1 = new Department("HR");
         Department department2 = new Department("Marketing");
 
@@ -40,7 +42,7 @@ public class Runner {
         Employee employee8 = new Employee("Arren Arrenson", department5, 200000);
         employee8.save();
 
-        Employee employee9 = new Employee("FalconMan", department1, 6000);
+        Employee employee9 = new Employee("FalconMan", department1, 60000);
         employee9.save();
         Employee employee10 = new Employee("Gyroscopic Boy", department2, 40000);
         employee10.save();
