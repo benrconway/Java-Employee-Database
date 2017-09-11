@@ -24,7 +24,7 @@ public class Department {
         return title;
     }
 
-    private void applyId(int newId){
+    public void applyId(int newId){
         this.id = newId;
     }
 

@@ -47,5 +47,15 @@ public class Runner {
         Employee employee10 = new Employee("Gyroscopic Boy", department2, 40000);
         employee10.save();
 
+        Employee.all();
+        Department.all();
+
+        employee2.delete();
+
+        department4.delete();
+
+        Employee.all();
+        Department.all();
+
     }
 }

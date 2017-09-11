@@ -60,7 +60,8 @@ public class Employee {
                 String name = rs.getString("name");
                 double salary = rs.getDouble("salary");
                 int departmentId = rs.getInt("department_id");
-                System.out.println("Employee: " + name + ", works in department " + departmentId +
+                int personalId = rs.getInt("id");
+                System.out.println("Employee #" + personalId + ": " + name + ", works in department " + departmentId +
                 " for a salary of " + salary + " / year.");
             }
         }catch (Exception e){
@@ -78,18 +79,31 @@ public class Employee {
     }
 
     public void delete(){
-        
+        String sql = String.format("DELETE FROM employees WHERE id = %d;", this.getId());
+        SqlRunner.executeUpdate(sql);
+        SqlRunner.closeConnection();
     }
 
+
 // something to work on.
-//    public static Department find_by_id(int deptId) {
-//        String sql = String.format("SELECT * FROM departments WHERE id = %d;", deptId);
-//        ResultSet rs = SqlRunner.executeQuery(sql);
-//        String title = rs.getString("title");
-//        int departmentId = rs.getInt("id");
-//        Department departmentFound = new Department(title);
-//        departmentFound.applyId(departmentId);
-//        SqlRunner.closeConnection();
-//        return departmentFound;
-//    }
+    public static Department find_by_id(int deptId) {
+        String sql = String.format("SELECT * FROM departments WHERE id = %d;", deptId);
+        ResultSet rs = SqlRunner.executeQuery(sql);
+        String title = null;
+        int departmentId = 0;
+        try {
+            while (rs.next())
+            title = rs.getString("title");
+            departmentId = rs.getInt("id");
+
+        }catch (Exception e){
+            System.err.println(e.getClass().getName() + " : " + e.getMessage());
+            System.exit(0);
+        }finally {
+            SqlRunner.closeConnection();
+        }
+        Department departmentFound = new Department(title);
+        departmentFound.applyId(departmentId);
+        return departmentFound;
+    }
 }
